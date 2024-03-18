@@ -36,7 +36,8 @@ import {
   GroupBy,
 } from '@cloud-carbon-footprint/common'
 import ServiceWrapper from '../lib/ServiceWrapper'
-import { BillingExportTable, ComputeEngine, Recommendations } from '../lib'
+import { teevityGcpBillingExportTable as BillingExportTable } from '../teevity'
+import { /*BillingExportTable,*/ ComputeEngine, Recommendations } from '../lib'
 import { GCP_CLOUD_CONSTANTS, getGCPEmissionsFactors } from '../domain'
 
 export default class GCPAccount extends CloudProviderAccount {
