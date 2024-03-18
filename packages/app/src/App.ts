@@ -37,8 +37,33 @@ import { EstimationRequest, RecommendationRequest } from './CreateValidRequest'
 import { includeCloudProviders } from './common/helpers'
 
 export const recommendationsMockPath = 'recommendations.mock.json'
+import { SplitedDateRange } from '@cloud-carbon-footprint/teevity'
 
 export default class App {
+  async initCacheCostAndEstimatesWithChunking(
+    request: EstimationRequest,
+  ): Promise<void> {
+    const { startDate, endDate } = request
+    const costAndEstimatesProcessInProgress: Array<
+      Promise<EstimationResult[]>
+    > = []
+    // Fill the cache with the all computed values (cf: @cache in getCostAndEstimates)
+    for (const currentDate of SplitedDateRange.splitDateRange(
+      startDate,
+      endDate,
+      SplitedDateRange.RANGE.DAY,
+    )) {
+      const requestForOneDay: EstimationRequest = Object.assign({}, request)
+      requestForOneDay.startDate = currentDate.startDate
+      requestForOneDay.endDate = currentDate.endDate
+      await this.getCostAndEstimates(requestForOneDay)
+      // costAndEstimatesProcessInProgress.push(
+      // )
+    }
+    // Wait the end of all process
+    await Promise.all(costAndEstimatesProcessInProgress)
+  }
+
   @cache()
   async getCostAndEstimates(
     request: EstimationRequest,
