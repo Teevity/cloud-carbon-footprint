@@ -35,7 +35,7 @@ import {
 } from '@cloud-carbon-footprint/common'
 
 import {
-  CostAndUsageReports,
+  // CostAndUsageReports,
   EBS,
   EC2,
   ElastiCache,
@@ -46,8 +46,10 @@ import {
   S3,
   ServiceWrapper,
 } from '../lib'
+import { TeevityAwsBillingExportTable as CostAndUsageReports } from '../lib/teevity'
 
-import AWSCredentialsProvider from './AWSCredentialsProvider'
+// import AWSCredentialsProvider from './AWSCredentialsProvider'
+import { TeevityAWSCredentialsProvider as AWSCredentialsProvider } from '../lib/teevity'
 
 import {
   AWS_CLOUD_CONSTANTS,
