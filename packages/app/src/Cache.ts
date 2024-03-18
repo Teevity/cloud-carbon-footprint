@@ -13,7 +13,8 @@ import { EstimationRequest } from './CreateValidRequest'
 import GoogleCloudCacheManager from './GoogleCloudCacheManager'
 import LocalCacheManager from './LocalCacheManager'
 import CacheManager from './CacheManager'
-import MongoDbCacheManager from './MongoDbCacheManager'
+// import MongoDbCacheManager from './MongoDbCacheManager'
+import { TeevityCacheManager as MongoDbCacheManager } from './teevity'
 import { concat, fillDates, filterCachedEstimates } from './common/helpers'
 
 /*
