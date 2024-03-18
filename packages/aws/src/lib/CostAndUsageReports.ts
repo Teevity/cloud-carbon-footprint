@@ -570,7 +570,7 @@ export default class CostAndUsageReports {
   // This isn't documented anywhere, but the behaviour appears to be that a tag such as 'SourceRepository' will
   // be 'user:SourceRepository' in CUR, and 'resource_tags_user_source_repository' in Athena. (AWS-internal tags
   // will be prefixed with 'aws:' instead of 'user:' in CUR.)
-  private async getUsage(
+  protected async getUsage(
     start: Date,
     end: Date,
     grouping: GroupBy,
