@@ -19,8 +19,9 @@ import {
 } from '@cloud-carbon-footprint/common'
 import {
   AZURE_EMISSIONS_FACTORS_METRIC_TON_PER_KWH,
-  AzureAccount,
+  // AzureAccount,
 } from '@cloud-carbon-footprint/azure'
+import { TeevityAzureAccount as AzureAccount } from '@cloud-carbon-footprint/azure'
 import {
   AWS_EMISSIONS_FACTORS_METRIC_TON_PER_KWH,
   AWSAccount,
