@@ -98,6 +98,7 @@ export default async function seedCacheFile(): Promise<void> {
 
     logRequestProgress(currentDate, nextDate)
 
+    // await app.initCacheCostAndEstimatesWithChunking(request)
     await app.getCostAndEstimates(request)
 
     // Slide to the beginning of the next date window
