@@ -29,6 +29,57 @@ const apiLogger = new Logger('api')
  * @param {express.Request} req - The Express request object containing the request parameters.
  * @returns A response object with the calculated raw footprint estimates.
  */
+export const InitFootprintApiMiddleware = async function (
+  req: express.Request,
+  res: express.Response,
+): Promise<void> {
+  // Set the request time out to 10 minutes to allow the request enough time to complete.
+  req.socket.setTimeout(1000 * 60 * 10)
+  const rawRequest: FootprintEstimatesRawRequest = {
+    startDate: req.query.start?.toString(),
+    endDate: req.query.end?.toString(),
+    ignoreCache: req.query.ignoreCache?.toString(),
+    groupBy: req.query.groupBy?.toString(),
+    limit: req.query.limit?.toString(),
+    skip: req.query.skip?.toString(),
+    cloudProviders: req.query.cloudProviders as string[],
+    accounts: req.query.accounts as string[],
+    services: req.query.services as string[],
+    regions: req.query.regions as string[],
+    tags: req.query.tags as Tags,
+  }
+  apiLogger.info(`Footprint API request started.`)
+  if (!rawRequest.groupBy) {
+    apiLogger.warn('GroupBy parameter not specified, adopting default "day"')
+    rawRequest.groupBy = 'day'
+  }
+  const footprintApp = new App()
+  try {
+    const estimationRequest = createValidFootprintRequest(rawRequest)
+    await footprintApp.initCacheCostAndEstimatesWithChunking(estimationRequest)
+    res.send(200)
+  } catch (e) {
+    apiLogger.error(`Unable to process footprint request.`, e)
+    if (
+      e.constructor.name ===
+      EstimationRequestValidationError.prototype.constructor.name
+    ) {
+      res.status(400).send(e.message)
+    } else if (
+      e.constructor.name === PartialDataError.prototype.constructor.name
+    ) {
+      res.status(416).send(e.message)
+    } else res.status(500).send('Internal Server Error')
+  }
+}
+
+/**
+ * Handles the fetching and calculations of cloud footprint estimates for a given date range.
+ *
+ * @async
+ * @param {express.Request} req - The Express request object containing the request parameters.
+ * @returns A response object with the calculated raw footprint estimates.
+ */
 export const FootprintApiMiddleware = async function (
   req: express.Request,
   res: express.Response,
@@ -56,6 +107,7 @@ export const FootprintApiMiddleware = async function (
   const footprintApp = new App()
   try {
     const estimationRequest = createValidFootprintRequest(rawRequest)
+    // await footprintApp.initCacheCostAndEstimatesWithChunking(estimationRequest)
     const estimationResults = await footprintApp.getCostAndEstimates(
       estimationRequest,
     )

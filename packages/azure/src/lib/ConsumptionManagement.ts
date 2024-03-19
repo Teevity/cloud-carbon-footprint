@@ -373,7 +373,7 @@ export default class ConsumptionManagementService {
     throw err
   }
 
-  private async getConsumptionUsageDetails(
+  protected async getConsumptionUsageDetails(
     startDate: Date,
     endDate: Date,
   ): Promise<Array<UsageDetailResult>> {

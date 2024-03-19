@@ -16,6 +16,7 @@ export default async function (): Promise<string[]> {
       'format',
       'Please enter the desired format for the data [table|csv] (default is table): ',
     ),
+    input('teevityDataExporter', 'path to the folder where there are all data'),
   ]
 
   const rawInput = await prompt(questions)
@@ -25,5 +26,6 @@ export default async function (): Promise<string[]> {
     rawInput.endDate,
     rawInput.groupBy,
     rawInput.format,
+    rawInput.teevityCCFBillingExportDirectory,
   ]
 }

@@ -34,7 +34,8 @@ import {
 } from '@cloud-carbon-footprint/common'
 import R from 'ramda'
 import AzureCredentialsProvider from './AzureCredentialsProvider'
-import ConsumptionManagementService from '../lib/ConsumptionManagement'
+import { TeevityConsumptionManagementService as ConsumptionManagementService } from '../lib/teevity/TeevityConsumptionManagementService'
+// import ConsumptionManagementService from '../lib/ConsumptionManagement'
 import AdvisorRecommendations from '../lib/AdvisorRecommendations'
 import { AZURE_CLOUD_CONSTANTS } from '../domain'
 
@@ -115,7 +116,7 @@ export default class AzureAccount extends CloudProviderAccount {
     return R.flatten(estimationResults)
   }
 
-  private async getSubscriptions(
+  protected async getSubscriptions(
     subscriptionIds: string[] = [],
   ): Promise<Subscription[]> {
     const AZURE = configLoader().AZURE
@@ -195,7 +196,7 @@ export default class AzureAccount extends CloudProviderAccount {
     return advisorRecommendations.getRecommendations()
   }
 
-  private async getDataForSubscription(
+  protected async getDataForSubscription(
     startDate: Date,
     endDate: Date,
     subscriptionId: string,

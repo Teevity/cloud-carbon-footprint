@@ -6,6 +6,7 @@ import { createEnvFile, EnvConfig, listPrompt, microsite } from '../common'
 import { log } from '../common/external'
 import { AWSSetup } from './aws'
 import { GCPSetup } from './gcp'
+import { TeevitySetup } from './teevity'
 import { AzureSetup } from './azure'
 import { MongoDBSetup } from './mongo'
 
@@ -14,6 +15,10 @@ type ConfigOptions = {
 }
 
 const configOptions: ConfigOptions = {
+  Teevity: {
+    setup: TeevitySetup,
+    docs: '/docs/teevity',
+  },
   AWS: {
     setup: AWSSetup,
     docs: '/docs/aws',

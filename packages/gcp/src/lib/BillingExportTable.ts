@@ -642,7 +642,7 @@ export default class BillingExportTable {
    * We support all three under one config with the use of prefixes to specify the type of label that a key corresponds to.
    * The resulting key/value pairs are then merged into a single "tag" property for each resource.
    */
-  private async getUsage(
+  protected async getUsage(
     start: Date,
     end: Date,
     grouping: GroupBy,
